@@ -18,7 +18,6 @@ func Test_Game_IsWin_CheckAdditionalCases(t *testing.T) {
 			name: "XXX________",
 			game: Game{
 				board: []string{
-
 					player1, player1, player1,
 					emptyBoardField, emptyBoardField, emptyBoardField,
 					emptyBoardField, emptyBoardField, emptyBoardField,
@@ -35,6 +34,32 @@ func Test_Game_IsWin_CheckAdditionalCases(t *testing.T) {
 					player1, player2, player1,
 					emptyBoardField, emptyBoardField, emptyBoardField,
 					emptyBoardField, emptyBoardField, emptyBoardField,
+				},
+				player: player1,
+			},
+			expWin: false,
+		},
+		{
+			name: "remis",
+			game: Game{
+				board: []string{
+
+					player1, player2, player1,
+					player2, player1, player1,
+					player2, player1, player2,
+				},
+				player: player1,
+			},
+			expWin: false,
+		},
+		{
+			name: "przegrana",
+			game: Game{
+				board: []string{
+
+					player1, player2, player1,
+					emptyBoardField, player2, emptyBoardField,
+					emptyBoardField, player2, emptyBoardField,
 				},
 				player: player1,
 			},

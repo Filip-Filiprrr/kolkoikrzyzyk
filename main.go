@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 // 01010101010101
 // 0xFFFFFFFFF
 // 0xABC789797EDCF
@@ -11,31 +7,37 @@ import (
 func main() {
 	game := newGame()
 	game.player = player1
+	in := &ConsoleHumanInput{}
 
 	//TODO zadanie domowe
-	//1. dokonczyc 2 istniejace unit testy
-	//2. napisac unit testy pod ta petle(main)
-	//3. z ksiazki przeczytac patterny: commmand, strategy, template method (rozdzial 8)
+	//1. dokonczyc test make turn z main_test
+	//2. zaimplementowac HumanOutput
+	//3. pomyslec, jak zaimplementowac AIPlayer
 	for {
-		if IsWin(game.board, game.player) {
-			println("koniec gry")
+		if MakeTurn(game, in) {
 			break
 		}
-
-		fmt.Printf("Podaj miejsce wpisania " + game.player + "\n")
-
-		var number, err = ScanMove()
-		if err != nil {
-			println(err)
-			continue
-		}
-
-		if err := BoardPlacement(game, number); err != nil {
-			println(err)
-			continue
-		}
-
-		PrintBoard(game)
 	}
 
+}
+
+func MakeTurn(game *Game, in HumanInput) bool {
+	if IsWin(game.board, game.player) {
+		println("koniec gry")
+		return true
+	}
+
+	var number, err = ScanMove(in)
+	if err != nil {
+		println(err)
+		return false
+	}
+
+	if err := BoardPlacement(game, number); err != nil {
+		println(err)
+		return false
+	}
+
+	PrintBoard(game)
+	return false
 }

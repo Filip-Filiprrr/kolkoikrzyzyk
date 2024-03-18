@@ -13,9 +13,9 @@ type (
 	Player = string
 	Board  = []string
 	Game   struct {
-		board      Board //wskaznik by default
-		player     Player
-		turnNumber int
+		board  Board //wskaznik by default
+		player Player
+		//turnNumber int
 	}
 )
 

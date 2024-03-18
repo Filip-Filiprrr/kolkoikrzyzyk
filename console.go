@@ -7,21 +7,34 @@ import (
 	"strconv"
 )
 
-func ScanMove() (int, error) {
-	//os - pakiet systemowy
-	//Stdin - klawiatura
-	//Stdout - consola (w linux 1)
-	//Stderr - wyjscie na bledy (w linux 2)
-	//cat file.txt 2>/dev/null (2=etderr)
-	//cat file.txt | grep "dupa"
+type HumanInput interface {
+	Scan() string
+}
 
-	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Scan()
-	if err := scanner.Err(); err != nil {
-		panic(err)
+type ConsoleHumanInput struct{}
+
+//type FileHumanInput struct{}
+
+func (in *ConsoleHumanInput) Scan() string {
+	//fmt.Printf("Podaj miejsce wpisania " + p + "\n")
+	input := ""
+	for {
+		scanner := bufio.NewScanner(os.Stdin)
+		scanner.Scan()
+		if err := scanner.Err(); err != nil {
+			panic(err)
+		}
+
+		input = scanner.Text()
+		if input != "" {
+			break
+		}
 	}
+	return input
+}
 
-	input := scanner.Text()
+func ScanMove(in HumanInput) (int, error) {
+	input := in.Scan()
 	number, err := strconv.Atoi(input)
 	if err != nil {
 		return 0, fmt.Errorf("input musi byc liczba: %w", err)
